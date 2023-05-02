@@ -7,14 +7,16 @@ class APIService {
   APIService._();
 
   static final APIService api = APIService._();
-  Map<String, dynamic> params = {"api_key": apiKey};
+  Map<String, dynamic> params = {"api_key": api};
   String url = "popular";
 
-  showMovieData() async {
+  Future<MovieResponse> showMovieData() async {
     Dio dio = Config.getdio();
     Response respone = await dio.get(url, queryParameters: params);
     if (respone.statusCode == 200) {
       return MovieResponse.fromJson(respone.data);
+    } else {
+      throw Exception("unable to fitch data from db");
     }
   }
 }
